@@ -1,3 +1,559 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+
+:root {
+  color: #292725;
+  background: #f4f0e9;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+* { box-sizing: border-box; }
+
+html { background: #f4f0e9; }
+
+body {
+  margin: 0;
+  background: #f4f0e9;
+  color: #292725;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+app-home-page,
+app-reminders-page {
+  display: block;
+}
+
+app-home-page .page-shell {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 30px 5vw 28px;
+}
+
+app-home-page .topbar,
+app-home-page .brand,
+app-home-page .status,
+app-home-page .intro,
+app-home-page .panel-heading,
+app-home-page .result-heading,
+app-home-page .action-row,
+app-home-page footer {
+  display: flex;
+  align-items: center;
+}
+
+app-home-page .topbar {
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 64px;
+}
+
+app-home-page .brand {
+  gap: 11px;
+  color: #292725;
+  text-decoration: none;
+  font: 700 15px Arial, sans-serif;
+  letter-spacing: .02em;
+}
+
+app-home-page .brand-mark {
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  background: #292725;
+  color: #f4f0e9;
+  font-size: 11px;
+  letter-spacing: -.05em;
+}
+
+app-home-page .main-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+app-home-page .nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid #d9d0c3;
+  background: rgba(255, 253, 249, .7);
+  color: #292725;
+  text-decoration: none;
+  font: 700 11px Arial, sans-serif;
+}
+
+app-home-page .nav-link.active,
+app-home-page .nav-link.reminder-link.has-reminders {
+  border-color: #a65d3e;
+  color: #a65d3e;
+}
+
+app-home-page .nav-link.reminder-link.has-reminders {
+  animation: reminderPulse 2.2s ease-in-out infinite;
+  box-shadow: 0 10px 18px rgba(166, 93, 62, .12);
+}
+
+app-home-page .notification-badge {
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #a65d3e;
+  color: #fff;
+  font-size: 10px;
+  animation: badgeBounce 1.8s ease-in-out infinite;
+}
+
+app-home-page .status {
+  gap: 8px;
+  color: #77716a;
+  font: 12px Arial, sans-serif;
+}
+
+app-home-page .status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #608166;
+  box-shadow: 0 0 0 4px #d9e1d7;
+}
+
+app-home-page .intro {
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 54px;
+}
+
+app-home-page .eyebrow,
+app-home-page .section-kicker {
+  margin: 0 0 13px;
+  color: #a65d3e;
+  font: 700 10px Arial, sans-serif;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+app-home-page h1,
+app-home-page h2,
+app-home-page p {
+  margin-top: 0;
+}
+
+app-home-page h1 {
+  max-width: 650px;
+  margin-bottom: 18px;
+  font-size: clamp(40px, 5vw, 68px);
+  font-weight: 400;
+  line-height: .98;
+  letter-spacing: -.055em;
+}
+
+app-home-page h1 em {
+  color: #a65d3e;
+  font-style: italic;
+}
+
+app-home-page .intro-copy {
+  color: #716c65;
+  font: 15px/1.6 Arial, sans-serif;
+}
+
+app-home-page .intro-badge {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 235px;
+  padding: 15px 17px;
+  border-left: 1px solid #c9bda9;
+}
+
+app-home-page .badge-icon {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border: 1px solid #608166;
+  border-radius: 50%;
+  color: #608166;
+  font: 14px Arial, sans-serif;
+}
+
+app-home-page .workspace-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.03fr) minmax(0, .97fr);
+  gap: 20px;
+}
+
+app-home-page .panel {
+  position: relative;
+  border: 1px solid #ded6ca;
+  background: rgba(255, 253, 249, .77);
+  box-shadow: 0 16px 40px rgba(76, 55, 34, .06);
+}
+
+app-home-page .form-panel,
+app-home-page .result-panel {
+  padding: 34px;
+}
+
+app-home-page .result-panel {
+  background: #292725;
+  color: #f4f0e9;
+  border-color: #292725;
+}
+
+app-home-page .panel-heading {
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+app-home-page .step-number {
+  display: grid;
+  place-items: center;
+  width: 39px;
+  height: 39px;
+  background: #a65d3e;
+  color: #f4f0e9;
+  font: 700 12px Arial, sans-serif;
+}
+
+app-home-page .step-number.warm {
+  background: #dfb675;
+  color: #292725;
+}
+
+app-home-page .panel h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -.04em;
+}
+
+app-home-page .result-heading {
+  align-items: flex-start;
+}
+
+app-home-page .result-heading .ready-label {
+  margin-left: auto;
+  padding: 6px 9px;
+  border: 1px solid #536b55;
+  color: #b7d1ba;
+  font: 10px Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+app-home-page .result-panel .section-kicker {
+  color: #dfb675;
+}
+
+app-home-page .field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 17px;
+  margin-bottom: 21px;
+}
+
+app-home-page .field {
+  display: grid;
+  gap: 8px;
+  color: #625d56;
+  font: 11px Arial, sans-serif;
+}
+
+app-home-page .field input {
+  width: 100%;
+  padding: 13px 12px;
+  border: 1px solid #d9d0c3;
+  background: #faf8f4;
+  color: #292725;
+  outline: none;
+}
+
+app-home-page .field input:focus {
+  border-color: #a65d3e;
+  box-shadow: 0 0 0 3px rgba(166, 93, 62, .12);
+}
+
+app-home-page .input-with-suffix {
+  position: relative;
+}
+
+app-home-page .input-with-suffix input {
+  padding-right: 32px;
+}
+
+app-home-page .input-with-suffix span {
+  position: absolute;
+  right: 12px;
+  top: 13px;
+  color: #8a8176;
+}
+
+app-home-page .scenario-picker {
+  margin: 0 0 28px;
+}
+
+app-home-page .scenario-header {
+  margin-bottom: 12px;
+}
+
+app-home-page .scenario-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: -.03em;
+}
+
+app-home-page .scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+app-home-page .scenario-card {
+  display: grid;
+  gap: 8px;
+  min-height: 126px;
+  padding: 14px 12px;
+  border: 1px solid #d9d0c3;
+  background: #f9f5f0;
+  color: #292725;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .2s, background .2s, transform .2s;
+}
+
+app-home-page .scenario-card:hover {
+  border-color: #a65d3e;
+  transform: translateY(-1px);
+}
+
+app-home-page .scenario-card.selected {
+  border-color: #a65d3e;
+  background: #f7ebe3;
+  box-shadow: 0 0 0 2px rgba(166, 93, 62, .08);
+}
+
+app-home-page .scenario-label {
+  font: 700 15px Arial, sans-serif;
+  letter-spacing: -.02em;
+}
+
+app-home-page .scenario-description {
+  color: #625d56;
+  font: 12px/1.45 Arial, sans-serif;
+}
+
+app-home-page .primary-button,
+app-home-page .secondary-button,
+app-home-page .whatsapp-button,
+app-home-page .email-button {
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+  font: 700 11px Arial, sans-serif;
+  letter-spacing: .02em;
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+app-home-page .primary-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 16px 17px;
+  background: #a65d3e;
+  color: #fffaf3;
+}
+
+app-home-page .primary-button:hover,
+app-home-page .secondary-button:hover,
+app-home-page .whatsapp-button:hover,
+app-home-page .email-button:hover {
+  transform: translateY(-1px);
+}
+
+app-home-page .result-panel .message-paper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+  padding: 24px 18px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  background: rgba(255, 255, 255, .04);
+  color: #f5f1eb;
+}
+
+app-home-page .message-content {
+  white-space: pre-wrap;
+}
+
+app-home-page .action-row {
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+app-home-page .secondary-button {
+  padding: 12px 14px;
+  background: #f4f0e9;
+  color: #292725;
+}
+
+app-home-page .whatsapp-button {
+  padding: 12px 14px;
+  background: #1a8c5a;
+  color: #f4f0e9;
+}
+
+app-home-page .email-button {
+  padding: 12px 14px;
+  background: #3a4d66;
+  color: #f4f0e9;
+}
+
+app-home-page .history-section {
+  margin-top: 50px;
+}
+
+app-home-page .history-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  padding-top: 15px;
+}
+
+app-home-page .history-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #ded6ca;
+  background: rgba(255, 253, 249, .65);
+  color: #292725;
+  text-align: left;
+  cursor: pointer;
+}
+
+app-home-page .history-item:hover {
+  border-color: #a65d3e;
+}
+
+app-home-page .history-avatar {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  background: #dfb675;
+  font: 700 12px Georgia, serif;
+}
+
+app-home-page .history-details {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+app-home-page .history-details strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 700 11px Arial, sans-serif;
+}
+
+app-home-page .history-amount {
+  grid-column: 2;
+  color: #a65d3e;
+  font: 700 11px Arial, sans-serif;
+}
+
+app-home-page .copied-notice {
+  margin-top: 14px;
+  color: #b7d1ba;
+  font: 12px Arial, sans-serif;
+}
+
+app-home-page .empty-message {
+  color: rgba(244, 240, 233, .7);
+}
+
+app-home-page .history-arrow {
+  color: #a65d3e;
+  font-size: 17px;
+}
+
+@keyframes reminderPulse {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 0 0 rgba(166, 93, 62, 0);
+  }
+  35% {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(166, 93, 62, .14);
+  }
+  70% {
+    box-shadow: 0 0 0 rgba(166, 93, 62, 0);
+  }
+}
+
+@keyframes badgeBounce {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(.97);
+  }
+}
+
+@media (max-width: 860px) {
+  app-home-page .topbar {
+    margin-bottom: 55px;
+  }
+
+  app-home-page .intro {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  app-home-page .workspace-grid {
+    grid-template-columns: 1fr;
+  }
+
+  app-home-page .history-list,
+  app-home-page .scenario-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  app-home-page .page-shell {
+    padding: 22px 18px;
+  }
+
+  app-home-page .field-row,
+  app-home-page .history-list,
+  app-home-page .scenario-grid {
+    grid-template-columns: 1fr;
+  }
+
+  app-home-page .form-panel,
+  app-home-page .result-panel {
+    padding: 23px 18px;
+  }
+
+  app-home-page .action-row > button {
+    width: 100%;
+  }
+}

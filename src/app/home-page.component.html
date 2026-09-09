@@ -1,0 +1,127 @@
+<main class="page-shell">
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Relance devis, accueil">
+      <span class="brand-mark" aria-hidden="true">RD</span>
+      <span>Relance devis</span>
+    </a>
+    <nav class="main-nav" aria-label="Navigation principale">
+      <a routerLink="/" class="nav-link active">Accueil</a>
+      <a
+        routerLink="/rappels"
+        class="nav-link reminder-link"
+        [class.has-reminders]="reminderCount() > 0"
+      >
+        Rappels à effectuer
+        @if (reminderCount() > 0) {
+          <span class="notification-badge">{{ reminderCount() }}</span>
+        }
+      </a>
+    </nav>
+    <span class="status"><span class="status-dot" aria-hidden="true"></span>Votre atelier de suivi</span>
+  </header>
+
+  <section class="intro" aria-labelledby="page-title">
+    <div>
+      <p class="eyebrow">Le petit coup de fil, sans le coup de stress</p>
+      <h1 id="page-title">Transformez vos devis en <em>projets signés.</em></h1>
+      <p class="intro-copy">Préparez une relance qui vous ressemble, puis envoyez-la en quelques secondes.</p>
+    </div>
+    <div class="intro-badge" aria-label="Vos messages restent sur cet appareil">
+      <span class="badge-icon" aria-hidden="true">✓</span>
+      <span><strong>Simple et confidentiel</strong><small>Vos données restent dans votre navigateur.</small></span>
+    </div>
+  </section>
+
+  <div class="workspace-grid">
+    <section class="panel form-panel" aria-labelledby="form-title">
+      <div class="panel-heading">
+        <div class="step-number">01</div>
+        <div><p class="section-kicker">Le devis à relancer</p><h2 id="form-title">Dites-nous en un peu plus</h2></div>
+      </div>
+
+      <form [formGroup]="quoteForm" (ngSubmit)="generateMessage()" novalidate>
+        <div class="scenario-picker">
+          <div class="scenario-header">
+            <p class="section-kicker">La bonne relance</p>
+            <h3>Choisissez votre situation</h3>
+          </div>
+          <div class="scenario-grid">
+            @for (scenario of scenarios; track scenario.id) {
+              <button
+                class="scenario-card"
+                type="button"
+                [class.selected]="quoteForm.controls.scenario.value === scenario.id"
+                (click)="selectScenario(scenario.id)"
+                [attr.aria-pressed]="quoteForm.controls.scenario.value === scenario.id"
+              >
+                <span class="scenario-icon" aria-hidden="true">{{ scenario.icon }}</span>
+                <span class="scenario-label">{{ scenario.label }}</span>
+                <span class="scenario-description">{{ scenario.description }}</span>
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="field-row">
+          <label class="field">
+            <span>Nom du client</span>
+            <input type="text" formControlName="clientName" placeholder="Ex. Camille Martin" autocomplete="name" />
+            @if (quoteForm.controls.clientName.touched && quoteForm.controls.clientName.invalid) { <small class="error">Indiquez le nom de votre client.</small> }
+          </label>
+          <label class="field">
+            <span>Prestation</span>
+            <input type="text" formControlName="service" placeholder="Ex. Rénovation de la cuisine" />
+            @if (quoteForm.controls.service.touched && quoteForm.controls.service.invalid) { <small class="error">Précisez la prestation.</small> }
+          </label>
+        </div>
+        <div class="field-row">
+          <label class="field">
+            <span>Montant du devis</span>
+            <span class="input-with-suffix"><input type="number" formControlName="amount" min="0" step="0.01" placeholder="0" /><span>€</span></span>
+          </label>
+          <label class="field">
+            <span>Date d'envoi</span>
+            <input type="date" formControlName="quoteDate" />
+          </label>
+        </div>
+
+        <button class="primary-button" type="submit">Générer ma relance <span aria-hidden="true">↗</span></button>
+      </form>
+    </section>
+
+    <section class="panel result-panel" aria-labelledby="result-title">
+      <div class="panel-heading result-heading">
+        <div class="step-number warm">02</div>
+        <div><p class="section-kicker">Votre message</p><h2 id="result-title">Prêt à partir</h2></div>
+        @if (hasMessage()) { <span class="ready-label">Généré</span> }
+      </div>
+      <div class="message-paper" [class.empty]="!hasMessage()" aria-live="polite">
+        @if (hasMessage()) { <p class="message-content">{{ message() }}</p> }
+        @else { <span class="empty-message"><span aria-hidden="true">✦</span> Votre relance apparaîtra ici</span> }
+      </div>
+      <div class="action-row">
+        <button class="secondary-button" type="button" [disabled]="!hasMessage()" (click)="copyMessage()">Copier message</button>
+        <button class="whatsapp-button" type="button" [disabled]="!hasMessage()" (click)="openWhatsapp()"><span aria-hidden="true">◉</span> Envoyer sur WhatsApp</button>
+        <button class="email-button" type="button" [disabled]="!hasMessage()" (click)="copyForEmail()"><span aria-hidden="true">✉</span> Copier pour email</button>
+      </div>
+      @if (copiedNotice()) { <p class="copied-notice" role="status"><span aria-hidden="true">✓</span> {{ copiedNotice() }}</p> }
+    </section>
+  </div>
+
+  @if (history().length > 0) {
+    <section class="history-section" aria-labelledby="history-title">
+      <div class="history-title"><p class="section-kicker">Votre atelier</p><h2 id="history-title">Dernières relances</h2></div>
+      <div class="history-list">
+        @for (item of history(); track item.id) {
+          <button class="history-item" type="button" (click)="restore(item)">
+            <span class="history-avatar">{{ item.clientName.charAt(0).toUpperCase() }}</span>
+            <span class="history-details"><strong>{{ item.clientName }}</strong><small>{{ item.service }}</small></span>
+            <span class="history-amount">{{ item.amount | number:'1.0-2' }} €</span>
+            <span class="history-arrow" aria-hidden="true">↗</span>
+          </button>
+        }
+      </div>
+    </section>
+  }
+  <footer><span>Relance devis</span><span>Fait pour les mains qui construisent.</span></footer>
+</main>

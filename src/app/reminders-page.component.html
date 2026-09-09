@@ -1,0 +1,86 @@
+<main class="reminder-page-shell">
+  <header class="reminder-header">
+    <div>
+      <p class="eyebrow">Suivi client</p>
+      <h1>Rappels à effectuer</h1>
+    </div>
+    <a routerLink="/" class="back-link">← Retour à l'accueil</a>
+  </header>
+
+  <section class="summary-panel" aria-live="polite">
+    <div>
+      <span class="summary-label">Total</span>
+      <strong>{{ reminderCount() }} rappel(s) à effectuer</strong>
+    </div>
+    <p>Les relances prioritaires sont affichées en premier pour éviter les oublis.</p>
+  </section>
+
+  @if (reminders().length === 0) {
+    <section class="empty-state">
+      <p>Aucun rappel à effectuer pour le moment.</p>
+    </section>
+  } @else {
+    <div class="reminder-list">
+      @for (reminder of reminders(); track reminder.id) {
+        <article class="reminder-card" [class]="getPriorityClass(reminder.priority)">
+          <div class="reminder-head">
+            <span class="priority-pill">{{ getPriorityLabel(reminder.priority) }}</span>
+            <span class="type-badge">{{ getReminderTypeLabel(reminder.type) }}</span>
+          </div>
+
+          <div class="reminder-body">
+            <div class="quote-meta">
+              <h2>{{ reminder.clientName }}</h2>
+              <p>{{ reminder.serviceLabel }}</p>
+            </div>
+
+            <dl class="quote-details">
+              <div><dt>Montant</dt><dd>{{ reminder.amountValue | number:'1.0-2' }} €</dd></div>
+              <div><dt>Devis envoyé</dt><dd>{{ reminder.quote.sentAt | date:'dd/MM/yyyy' }}</dd></div>
+              <div><dt>Dernier contact</dt><dd>{{ (reminder.quote.lastContactAt ?? reminder.quote.sentAt) | date:'dd/MM/yyyy' }}</dd></div>
+              <div><dt>Sans réponse depuis</dt><dd>{{ getDaysWithoutResponse(reminder) }} jours</dd></div>
+              <div><dt>Relances effectuées</dt><dd>{{ reminder.quote.remindersCount }}</dd></div>
+              <div><dt>Statut</dt><dd>{{ reminder.quote.status }}</dd></div>
+            </dl>
+          </div>
+
+          <div class="reminder-actions">
+            <button class="primary-link" type="button" (click)="prepareReminder(reminder)">Préparer une relance</button>
+            <button class="secondary-button" type="button" (click)="markAsTreated(reminder.id)">Marquer comme traité</button>
+          </div>
+        </article>
+      }
+    </div>
+  }
+
+  @if (processedReminders().length > 0) {
+    <section class="processed-section" aria-labelledby="processed-title">
+      <div class="processed-header">
+        <p class="eyebrow">Historique</p>
+        <h2 id="processed-title">Déjà traités</h2>
+      </div>
+      <div class="reminder-list processed-list">
+        @for (reminder of processedReminders(); track reminder.id) {
+          <article class="reminder-card reminder-card--processed" [class]="getPriorityClass(reminder.priority)">
+            <div class="reminder-head">
+              <span class="priority-pill">Traité</span>
+              <span class="type-badge">{{ getReminderTypeLabel(reminder.type) }}</span>
+            </div>
+            <div class="reminder-body">
+              <div class="quote-meta">
+                <h2>{{ reminder.clientName }}</h2>
+                <p>{{ reminder.serviceLabel }}</p>
+              </div>
+              <dl class="quote-details">
+                <div><dt>Montant</dt><dd>{{ reminder.amountValue | number:'1.0-2' }} €</dd></div>
+                <div><dt>Type</dt><dd>{{ getReminderTypeLabel(reminder.type) }}</dd></div>
+                <div><dt>Devis envoyé</dt><dd>{{ reminder.quote.sentAt | date:'dd/MM/yyyy' }}</dd></div>
+                <div><dt>État</dt><dd>Déjà traité</dd></div>
+              </dl>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+  }
+</main>

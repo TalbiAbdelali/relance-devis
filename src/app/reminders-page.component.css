@@ -1,0 +1,41 @@
+:host { display:block; min-height:100dvh; color:#292725; background:#f4f0e9; font-family:Georgia,'Times New Roman',serif }
+.reminder-page-shell { max-width:1100px; margin:0 auto; padding:32px 5vw 48px }
+.reminder-header { display:flex; justify-content:space-between; align-items:end; gap:16px; margin-bottom:28px; flex-wrap:wrap }
+.eyebrow { margin:0 0 12px; color:#a65d3e; font:700 10px Arial,sans-serif; letter-spacing:.16em; text-transform:uppercase }
+h1 { margin:0; font-size:clamp(34px,4vw,52px); font-weight:400; letter-spacing:-.05em }
+.back-link { display:inline-flex; align-items:center; color:#292725; text-decoration:none; font:700 12px Arial,sans-serif; border:1px solid #d9d0c3; padding:10px 12px; background:rgba(255,253,249,.7) }
+.summary-panel { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:18px 20px; border:1px solid #ded6ca; background:rgba(255,253,249,.7); margin-bottom:26px }
+.summary-label { display:block; margin-bottom:4px; color:#7d736d; font:700 10px Arial,sans-serif; letter-spacing:.12em; text-transform:uppercase }
+.summary-panel strong { font-size:22px; letter-spacing:-.04em }
+.summary-panel p { margin:0; max-width:520px; color:#625d56; font:13px/1.5 Arial,sans-serif }
+.reminder-list { display:grid; gap:18px }
+.reminder-card { border:1px solid #d9d0c3; background:rgba(255,253,249,.72); padding:20px; box-shadow:0 16px 28px rgba(76,55,34,.04) }
+.reminder-card.priority-high { border-left:6px solid #d94b4b }
+.reminder-card.priority-medium { border-left:6px solid #e89a35 }
+.reminder-card.priority-low { border-left:6px solid #d9b562 }
+.reminder-card--processed { opacity:.82 }
+.processed-section { margin-top:32px }
+.processed-header { margin-bottom:16px }
+.processed-header h2 { margin:0; font-size:32px; letter-spacing:-.04em }
+.reminder-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap }
+.priority-pill, .type-badge { padding:6px 10px; font:700 10px Arial,sans-serif; letter-spacing:.08em; text-transform:uppercase; border:1px solid transparent }
+.priority-pill { background:#f9e9e7; color:#a65d3e }
+.type-badge { background:#f8f1e8; color:#4c413c }
+.reminder-body { display:grid; grid-template-columns:1.2fr 2fr; gap:22px }
+.quote-meta h2 { margin:0 0 8px; font-size:28px; letter-spacing:-.04em }
+.quote-meta p { margin:0; color:#625d56; font:14px/1.5 Arial,sans-serif }
+.quote-details { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 18px; margin:0 }
+.quote-details div { display:grid; gap:4px; padding-top:10px; border-top:1px solid #e4dccc }
+.quote-details dt { color:#7d736d; font:700 10px Arial,sans-serif; letter-spacing:.08em; text-transform:uppercase }
+.quote-details dd { margin:0; font:700 14px Arial,sans-serif }
+.reminder-actions { display:flex; justify-content:flex-end; gap:12px; flex-wrap:wrap; margin-top:20px }
+.primary-link, .secondary-button { display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:0 16px; border:0; text-decoration:none; font:700 11px Arial,sans-serif; cursor:pointer }
+.primary-link { background:#a65d3e; color:#fffaf3 }
+.secondary-button { background:#292725; color:#f4f0e9 }
+.empty-state { padding:32px; border:1px dashed #cbbfae; text-align:center; color:#625d56; background:rgba(255,253,249,.45) }
+@media (max-width:760px) {
+  .reminder-body { grid-template-columns:1fr }
+  .quote-details { grid-template-columns:1fr }
+  .summary-panel { flex-direction:column; align-items:flex-start }
+  .reminder-actions { justify-content:flex-start }
+}
