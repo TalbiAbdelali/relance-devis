@@ -66,7 +66,17 @@ h1 em { color:#a65d3e; font-style:italic }
 .copied-notice { margin-top:14px; color:#b7d1ba; font:12px Arial,sans-serif }
 .empty-message { color:rgba(244,240,233,.7) }
 .history-arrow { color:#a65d3e; font-size:17px }
+.email-modal-backdrop { position:fixed; inset:0; display:grid; place-items:center; background:rgba(22,18,14,.45); z-index:50; padding:20px }
+.email-modal { width:min(520px, 100%); max-height:90vh; overflow:auto; background:#fffaf3; border:1px solid #d9d0c3; box-shadow:0 22px 45px rgba(17,13,11,.18); padding:20px }
+.email-modal-header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px }
+.email-modal-header h3 { margin:0; font-size:24px; letter-spacing:-.04em }
+.close-email-dialog { width:32px; height:32px; border:1px solid #d9d0c3; background:transparent; color:#292725; font-size:24px; line-height:1; cursor:pointer }
+.email-provider-list { display:grid; gap:10px }
+.email-provider-option { display:grid; gap:4px; width:100%; padding:14px 16px; border:1px solid #d9d0c3; background:#f9f5f0; text-align:left; color:#292725; cursor:pointer }
+.email-provider-option:hover { border-color:#a65d3e; background:#f7ebe3 }
+.provider-name { font:700 13px Arial,sans-serif }
+.email-provider-option small { color:#625d56; font:11px/1.4 Arial,sans-serif }
 @keyframes reminderPulse { 0%,100% { transform:translateY(0); box-shadow:0 0 0 rgba(166,93,62,0) } 35% { transform:translateY(-1px); box-shadow:0 10px 18px rgba(166,93,62,.14) } 70% { box-shadow:0 0 0 rgba(166,93,62,0) } }
 @keyframes badgeBounce { 0%,100% { transform:scale(1) } 25% { transform:scale(1.1) } 50% { transform:scale(.97) } }
 @media (max-width:860px) { .topbar { margin-bottom:55px } .intro { flex-direction:column; align-items:flex-start } .workspace-grid { grid-template-columns:1fr } .history-list, .scenario-grid { grid-template-columns:repeat(2,1fr) } }
-@media (max-width:560px) { .page-shell { padding:22px 18px } .topbar { align-items:flex-start } .main-nav { width:100%; margin-left:0 } .nav-link { flex:1 1 100%; justify-content:center } .field-row, .history-list, .scenario-grid { grid-template-columns:1fr } .form-panel, .result-panel { padding:23px 18px } .action-row > button { width:100% } }
+@media (max-width:560px) { .page-shell { padding:22px 18px } .topbar { align-items:flex-start } .main-nav { width:100%; margin-left:0 } .nav-link { flex:1 1 100%; justify-content:center } .field-row, .history-list, .scenario-grid { grid-template-columns:1fr } .form-panel, .result-panel { padding:23px 18px } .action-row > button { width:100% } .email-modal { padding:16px } .email-modal-header h3 { font-size:20px } }

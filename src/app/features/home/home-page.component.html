@@ -102,11 +102,30 @@
       <div class="action-row">
         <button class="secondary-button" type="button" [disabled]="!hasMessage()" (click)="copyMessage()">Copier message</button>
         <button class="whatsapp-button" type="button" [disabled]="!hasMessage()" (click)="openWhatsapp()"><span aria-hidden="true">◉</span> Envoyer sur WhatsApp</button>
-        <button class="email-button" type="button" [disabled]="!hasMessage()" (click)="copyForEmail()"><span aria-hidden="true">✉</span> Copier pour email</button>
+        <button class="email-button" type="button" [disabled]="!hasMessage()" (click)="openEmailDialog()"><span aria-hidden="true">✉</span> Envoyer par mail</button>
       </div>
       @if (copiedNotice()) { <p class="copied-notice" role="status"><span aria-hidden="true">✓</span> {{ copiedNotice() }}</p> }
     </section>
   </div>
+
+  @if (emailChoiceOpen()) {
+    <div class="email-modal-backdrop" (click)="closeEmailDialog()">
+      <div class="email-modal" role="dialog" aria-modal="true" aria-labelledby="email-choice-title" (click)="$event.stopPropagation()">
+        <div class="email-modal-header">
+          <h3 id="email-choice-title">Choisir votre messagerie</h3>
+          <button type="button" class="close-email-dialog" (click)="closeEmailDialog()" aria-label="Fermer">×</button>
+        </div>
+        <div class="email-provider-list">
+          @for (provider of emailProviders; track provider.id) {
+            <button class="email-provider-option" type="button" (click)="chooseEmailProvider(provider.id)">
+              <span class="provider-name">{{ provider.label }}</span>
+              <small>{{ provider.description }}</small>
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  }
 
   @if (history().length > 0) {
     <section class="history-section" aria-labelledby="history-title">

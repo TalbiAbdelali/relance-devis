@@ -6,6 +6,8 @@ import { QuoteRequest, RelanceScenario, Scenario } from '../../shared/models/quo
 import { QuoteReminderService } from '../../core/services/quote-reminder.service';
 import { DevisStatus } from '../../shared/models/quote.model';
 
+type EmailProvider = 'default' | 'gmail' | 'outlook' | 'yahoo' | 'icloud';
+
 @Component({
   selector: 'app-home-page',
   imports: [DecimalPipe, ReactiveFormsModule, RouterLink],
@@ -13,11 +15,20 @@ import { DevisStatus } from '../../shared/models/quote.model';
   styleUrl: './home-page.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class HomePageComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly reminderService = inject(QuoteReminderService);
   private readonly storageKey = 'relance-devis-history';
+
+  protected readonly emailProviders: Array<{ id: EmailProvider; label: string; description: string }> = [
+    { id: 'default', label: 'Client mail par défaut', description: 'Ouvre votre application de messagerie' },
+    { id: 'gmail', label: 'Gmail', description: 'Composer via Gmail' },
+    { id: 'outlook', label: 'Outlook', description: 'Composer via Outlook' },
+    { id: 'yahoo', label: 'Yahoo Mail', description: 'Composer via Yahoo Mail' },
+    { id: 'icloud', label: 'iCloud Mail', description: 'Composer via iCloud Mail' }
+  ];
 
   protected readonly scenarios: Scenario[] = [
     { id: 'FIRST_REMINDER', label: 'Première relance', icon: '📩', description: 'Le client n’a pas encore répondu' },
@@ -37,6 +48,7 @@ export class HomePageComponent {
 
   protected readonly message = signal('');
   protected readonly copiedNotice = signal('');
+  protected readonly emailChoiceOpen = signal(false);
   protected readonly history = signal<QuoteRequest[]>(this.loadHistory());
   protected readonly reminderCount = computed(() => this.reminderService.getReminderCount());
   protected readonly hasMessage = computed(() => this.message().length > 0);
@@ -88,11 +100,30 @@ export class HomePageComponent {
     }
   }
 
-  protected copyForEmail(): void {
+  protected openEmailDialog(): void {
     if (!this.message()) return;
+    this.emailChoiceOpen.set(true);
+  }
+
+  protected closeEmailDialog(): void {
+    this.emailChoiceOpen.set(false);
+  }
+
+  protected chooseEmailProvider(provider: EmailProvider): void {
+    if (!this.message()) return;
+
     const subject = `Relance devis - ${this.quoteForm.controls.service.value}`;
-    void navigator.clipboard.writeText(`Objet : ${subject}\n\n${this.message()}`);
-    this.showCopied('Email copié');
+    const body = this.message();
+    const url = this.buildEmailUrl(provider, subject, body);
+
+    this.emailChoiceOpen.set(false);
+
+    if (provider === 'default') {
+      window.location.href = url;
+      return;
+    }
+
+    window.open(url, '_blank', 'noopener');
   }
 
   protected restore(request: QuoteRequest): void {
@@ -157,6 +188,25 @@ export class HomePageComponent {
       HESITANT_CLIENT: `Bonjour ${request.clientName},\n\nSuite à nos derniers échanges concernant votre projet, je souhaitais savoir si vous aviez encore des questions ou des hésitations concernant notre proposition.\n\nNous pouvons bien sûr échanger ensemble afin de trouver la solution la plus adaptée à vos besoins.\n\nJe reste à votre disposition.\n\nBien cordialement,\n\n${signature}`
     };
     return scenarioMessages[scenario];
+  }
+
+  private buildEmailUrl(provider: EmailProvider, subject: string, body: string): string {
+    const encodedSubject = encodeURIComponent(subject);
+    const encodedBody = encodeURIComponent(body);
+
+    switch (provider) {
+      case 'gmail':
+        return `https://mail.google.com/mail/?view=cm&fs=1&su=${encodedSubject}&body=${encodedBody}`;
+      case 'outlook':
+        return `https://outlook.live.com/mail/0/deeplink/compose?subject=${encodedSubject}&body=${encodedBody}`;
+      case 'yahoo':
+        return `https://compose.mail.yahoo.com/?subject=${encodedSubject}&body=${encodedBody}`;
+      case 'icloud':
+        return `https://www.icloud.com/mail/?view=cm&subject=${encodedSubject}&body=${encodedBody}`;
+      case 'default':
+      default:
+        return `mailto:?subject=${encodedSubject}&body=${encodedBody}`;
+    }
   }
 
   private showCopied(notice: string): void {
