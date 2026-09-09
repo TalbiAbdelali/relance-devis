@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { provideRouter } from '@angular/router';
 import { App } from './app';
 import { routes } from './app.routes';
-import { QuoteReminderService } from './reminder.service';
+import { QuoteReminderService } from './core/services/quote-reminder.service';
 
 describe('App', () => {
   beforeEach(async () => {

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { DecimalPipe, DatePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { QuoteReminderService } from './reminder.service';
-import { ReminderSummary } from './quote.model';
+import { QuoteReminderService } from '../../core/services/quote-reminder.service';
+import { ReminderSummary } from '../../shared/models/quote.model';
 
 @Component({
   selector: 'app-reminders-page',

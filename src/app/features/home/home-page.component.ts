@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { DecimalPipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { QuoteRequest, RelanceScenario, Scenario } from './quote-request.model';
-import { QuoteReminderService } from './reminder.service';
-import { DevisStatus } from './quote.model';
+import { QuoteRequest, RelanceScenario, Scenario } from '../../shared/models/quote-request.model';
+import { QuoteReminderService } from '../../core/services/quote-reminder.service';
+import { DevisStatus } from '../../shared/models/quote.model';
 
 @Component({
   selector: 'app-home-page',
@@ -130,7 +130,7 @@ export class HomePageComponent {
 
   private toQuote(request: QuoteRequest) {
     const now = new Date().toISOString();
-    const quote: import('./quote.model').Quote = {
+    const quote: import('../../shared/models/quote.model').Quote = {
       id: request.id,
       clientFirstName: request.clientName.split(' ')[0] ?? request.clientName,
       clientLastName: request.clientName.split(' ').slice(1).join(' ') || 'Client',

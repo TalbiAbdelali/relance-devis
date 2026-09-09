@@ -8,6 +8,7 @@ h1 { margin:0; font-size:clamp(34px,4vw,52px); font-weight:400; letter-spacing:-
 .summary-label { display:block; margin-bottom:4px; color:#7d736d; font:700 10px Arial,sans-serif; letter-spacing:.12em; text-transform:uppercase }
 .summary-panel strong { font-size:22px; letter-spacing:-.04em }
 .summary-panel p { margin:0; max-width:520px; color:#625d56; font:13px/1.5 Arial,sans-serif }
+.priority-pill, .type-badge { white-space:nowrap }
 .reminder-list { display:grid; gap:18px }
 .reminder-card { border:1px solid #d9d0c3; background:rgba(255,253,249,.72); padding:20px; box-shadow:0 16px 28px rgba(76,55,34,.04) }
 .reminder-card.priority-high { border-left:6px solid #d94b4b }
@@ -38,4 +39,15 @@ h1 { margin:0; font-size:clamp(34px,4vw,52px); font-weight:400; letter-spacing:-
   .quote-details { grid-template-columns:1fr }
   .summary-panel { flex-direction:column; align-items:flex-start }
   .reminder-actions { justify-content:flex-start }
+}
+
+@media (max-width:480px) {
+  .reminder-page-shell { padding:22px 18px 32px }
+  .reminder-header { align-items:flex-start; flex-direction:column }
+  .back-link { width:100%; justify-content:center }
+  .summary-panel strong { font-size:18px }
+  .reminder-card { padding:16px } 
+  .reminder-head { align-items:flex-start }
+  .quote-meta h2 { font-size:24px }
+  .primary-link, .secondary-button { width:100% }
 }

@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { DevisStatus, Quote, Reminder, ReminderPriority, ReminderSummary, ReminderType } from './quote.model';
+import { Quote, Reminder, ReminderPriority, ReminderSummary } from '../../shared/models/quote.model';
 
 @Injectable({ providedIn: 'root' })
 export class QuoteReminderService {
