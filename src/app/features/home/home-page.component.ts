@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { QuoteRequest, RelanceScenario, Scenario } from '../../shared/models/quote-request.model';
 import { QuoteReminderService } from '../../core/services/quote-reminder.service';
@@ -39,10 +39,10 @@ export class HomePageComponent {
   ];
 
   protected readonly quoteForm = this.formBuilder.nonNullable.group({
-    clientName: ['', [Validators.required, Validators.minLength(2)]],
-    service: ['', Validators.required],
-    amount: [0, [Validators.required, Validators.min(0)]],
-    quoteDate: [this.today(), Validators.required],
+    clientName: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^[A-Za-zÀ-ÿ' -]{2,}$/)]],
+    service: ['', [Validators.required, Validators.minLength(3), Validators.pattern(/^[A-Za-zÀ-ÿ0-9\s'&/().,-]{3,}$/)]],
+    amount: [0, [Validators.required, Validators.min(1)]],
+    quoteDate: [this.today(), [Validators.required, this.futureDateValidator()]],
     scenario: ['FIRST_REMINDER' as RelanceScenario, Validators.required]
   });
 
@@ -212,6 +212,22 @@ export class HomePageComponent {
   private showCopied(notice: string): void {
     this.copiedNotice.set(notice);
     window.setTimeout(() => this.copiedNotice.set(''), 2500);
+  }
+
+  private futureDateValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+
+      if (!value) {
+        return null;
+      }
+
+      const selectedDate = new Date(`${value}T12:00:00`);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      return selectedDate > today ? { futureDate: true } : null;
+    };
   }
 
   private today(): string {

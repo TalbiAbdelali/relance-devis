@@ -4,6 +4,7 @@ import { provideRouter } from '@angular/router';
 import { App } from './app';
 import { routes } from './app.routes';
 import { QuoteReminderService } from './core/services/quote-reminder.service';
+import { HomePageComponent } from './features/home/home-page.component';
 
 describe('App', () => {
   beforeEach(async () => {
@@ -36,6 +37,25 @@ describe('App', () => {
     expect(compiled.textContent).toContain('Choisissez votre situation');
     expect(compiled.textContent).toContain('Première relance');
     expect(compiled.textContent).toContain('Client hésitant');
+  });
+
+  it('should reject zero-amount quotes and dates in the future', () => {
+    const fixture = TestBed.createComponent(HomePageComponent);
+    const today = new Date();
+    today.setDate(today.getDate() + 2);
+    const futureDate = today.toISOString().slice(0, 10);
+
+    fixture.componentInstance.quoteForm.setValue({
+      clientName: 'Camille Martin',
+      service: 'Rénovation cuisine',
+      amount: 0,
+      quoteDate: futureDate,
+      scenario: 'FIRST_REMINDER'
+    });
+
+    expect(fixture.componentInstance.quoteForm.invalid).toBeTrue();
+    expect(fixture.componentInstance.quoteForm.controls.amount.hasError('min')).toBeTrue();
+    expect(fixture.componentInstance.quoteForm.controls.quoteDate.hasError('futureDate')).toBeTrue();
   });
 
   it('should keep processed reminders in a dedicated list', () => {

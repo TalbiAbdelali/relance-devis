@@ -18,6 +18,8 @@ h1 { max-width:650px; margin-bottom:18px; font-size:clamp(40px,5vw,68px); font-w
 h1 em { color:#a65d3e; font-style:italic }
 .intro-copy { color:#716c65; font:15px/1.6 Arial,sans-serif }
 .intro-badge { display:flex; align-items:center; gap:13px; min-width:235px; padding:15px 17px; border-left:1px solid #c9bda9 }
+.intro-badge strong, .intro-badge small { display:block }
+.intro-badge strong { margin-bottom:4px }
 .badge-icon { display:grid; place-items:center; width:27px; height:27px; border:1px solid #608166; border-radius:50%; color:#608166; font:14px Arial,sans-serif }
 .workspace-grid { display:grid; grid-template-columns:minmax(0,1.03fr) minmax(0,.97fr); gap:20px }
 .panel { position:relative; border:1px solid #ded6ca; background:rgba(255,253,249,.77); box-shadow:0 16px 40px rgba(76,55,34,.06) }
@@ -34,6 +36,8 @@ h1 em { color:#a65d3e; font-style:italic }
 .field { display:grid; gap:8px; color:#625d56; font:11px Arial,sans-serif }
 .field input { width:100%; padding:13px 12px; border:1px solid #d9d0c3; background:#faf8f4; color:#292725; outline:none }
 .field input:focus { border-color:#a65d3e; box-shadow:0 0 0 3px rgba(166,93,62,.12) }
+.field input.ng-invalid.ng-touched { border-color:#a65d3e; box-shadow:0 0 0 3px rgba(166,93,62,.09) }
+.field .error { display:block; margin-top:2px; color:#8d3a2f; font:700 10px Arial,sans-serif }
 .input-with-suffix { position:relative }
 .input-with-suffix input { padding-right:32px }
 .input-with-suffix span { position:absolute; right:12px; top:13px; color:#8a8176 }
